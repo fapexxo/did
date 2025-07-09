@@ -17,6 +17,8 @@ compute.aggte <- function(MP,
                           balance_e = NULL,
                           min_e = -Inf,
                           max_e = Inf,
+                          overall_min_e = 0,
+                          overall_max_e = Inf,
                           na.rm = FALSE,
                           bstrap = NULL,
                           biters = NULL,
@@ -410,7 +412,7 @@ compute.aggte <- function(MP,
 
     # get overall average treatment effect
     # by averaging over positive dynamics
-    epos <- eseq >= 0
+    epos <- eseq >= overall_min_e & eseq <= overall_max_e
     dynamic.att <- mean(dynamic.att.e[epos])
     dynamic.inf.func <- get_agg_inf_func(att=dynamic.att.e[epos],
                                          inffunc1=as.matrix(dynamic.inf.func.e[,epos]),
